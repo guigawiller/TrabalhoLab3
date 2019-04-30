@@ -145,7 +145,7 @@ public class LerArquivo {
 
     }
 
-    public ArrayList acharPalavra(String texto) throws FileNotFoundException, IOException {
+    public ArrayList<String> acharPalavra(String texto) throws FileNotFoundException, IOException {
 
         RandomAccessFile file = new RandomAccessFile("C:\\Users\\guilh\\Documents\\NetBeansProjects\\TrabalhoLab\\src\\trabalholab\\indice.txt", "rw");
 
@@ -159,24 +159,66 @@ public class LerArquivo {
                 file.seek(calcularHash(plotKeywordsEspaco.get(i).toString()) * 2502);
                 String linha = file.readLine();
                 linha = file.readLine();
+                linha = linha.trim();
                 numeros.add(Arrays.asList(linha.split("\\s*,\\s*")));
                 arrays.add(numeros);
             }
 
         }
 
-        ArrayList comparacao = new ArrayList();
-        for (int i = 0; i < arrays.size() - 1; i++) {   
-            for (int j = 0; j < arrays.get(i).get(0).size(); j++) {
-                
-                if (comparacao.contains(arrays.get(i).get(0).get(j))) {
-                    resultado.add(arrays.get(i).get(0).get(j));
+        if (arrays.size() == 1) {
+            for (int i = 2; i < arrays.get(0).get(0).size(); i++) {
+                resultado.add(arrays.get(0).get(0).get(i));
+            }
+        } else {
+
+            ArrayList comparacao = new ArrayList();
+            for (int i = 0; i < arrays.size() - 1; i++) {
+
+                for (int j = 2; j < arrays.get(i).get(0).size(); j++) {
+                    int count = 0;
+                    for (int k = 0; k < arrays.size(); k++) {
+                        if (arrays.get(k).get(0).contains(arrays.get(i).get(0).get(j))) {
+//                        System.out.println(arrays.get(k).get(0));
+                            count++;
+                        }
+
+                    }
+
+                    if (count == arrays.size()) {
+                        if (!resultado.contains(arrays.get(i).get(0).get(j))) {
+                            resultado.add(arrays.get(i).get(0).get(j));
+                        }
+                    }
                 }
-                comparacao.add(arrays.get(i).get(0).get(j));
             }
         }
-        System.out.println(comparacao);
         return resultado;
+    }
+
+    public void criarBaseDados() throws FileNotFoundException, IOException {
+        RandomAccessFile file = new RandomAccessFile("C:\\Users\\guilh\\Documents\\NetBeansProjects\\TrabalhoLab\\src\\trabalholab\\movie_metadata.csv", "rw");
+        RandomAccessFile database = new RandomAccessFile("C:\\Users\\guilh\\Documents\\NetBeansProjects\\TrabalhoLab\\src\\trabalholab\\movie_metadata.txt", "rw");
+        for (int i = 1; i <= 4891; i++) {
+            String linha = file.readLine();
+            linha += "\n";
+            database.write(linha.getBytes());
+        }
+        file.close();
+        database.close();
+    }
+
+    public void recuperaFilme(int indice) throws FileNotFoundException, IOException {
+        RandomAccessFile database = new RandomAccessFile("C:\\Users\\guilh\\Documents\\NetBeansProjects\\TrabalhoLab\\src\\trabalholab\\movie_metadata.txt", "rw");
+        database.seek(indice);
+        String linha = database.readLine();
+        String head = "color,director_name,num_critic_for_reviews,duration,director_facebook_likes,actor_3_facebook_likes,actor_2_name,actor_1_facebook_likes,gross,genres,actor_1_name,movie_title,num_voted_users,cast_total_facebook_likes,actor_3_name,facenumber_in_poster,plot_keywords,movie_imdb_link,num_user_for_reviews,language,country,content_rating,budget,title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes";
+        ArrayList heads = new ArrayList(Arrays.asList(head.split("\\s*,\\s*")));
+        ArrayList palavras = new ArrayList(Arrays.asList(linha.split("\\s*;\\s*")));
+        for (int i = 0; i < palavras.size(); i++) {
+            System.out.println(heads.get(i)+": "+ palavras.get(i)+"\n");
+//            System.out.println("a");
+        }
     }
 
 }
