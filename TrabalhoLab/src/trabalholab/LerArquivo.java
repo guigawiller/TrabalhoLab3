@@ -145,7 +145,7 @@ public class LerArquivo {
 
     }
 
-    public ArrayList acharPalavra(String texto) throws FileNotFoundException, IOException {
+    public ArrayList<String> acharPalavra(String texto) throws FileNotFoundException, IOException {
 
         RandomAccessFile file = new RandomAccessFile("C:\\Users\\guilh\\Documents\\NetBeansProjects\\TrabalhoLab\\src\\trabalholab\\indice.txt", "rw");
 
@@ -194,6 +194,31 @@ public class LerArquivo {
             }
         }
         return resultado;
+    }
+
+    public void criarBaseDados() throws FileNotFoundException, IOException {
+        RandomAccessFile file = new RandomAccessFile("C:\\Users\\guilh\\Documents\\NetBeansProjects\\TrabalhoLab\\src\\trabalholab\\movie_metadata.csv", "rw");
+        RandomAccessFile database = new RandomAccessFile("C:\\Users\\guilh\\Documents\\NetBeansProjects\\TrabalhoLab\\src\\trabalholab\\movie_metadata.txt", "rw");
+        for (int i = 1; i <= 4891; i++) {
+            String linha = file.readLine();
+            linha += "\n";
+            database.write(linha.getBytes());
+        }
+        file.close();
+        database.close();
+    }
+
+    public void recuperaFilme(int indice) throws FileNotFoundException, IOException {
+        RandomAccessFile database = new RandomAccessFile("C:\\Users\\guilh\\Documents\\NetBeansProjects\\TrabalhoLab\\src\\trabalholab\\movie_metadata.txt", "rw");
+        database.seek(indice);
+        String linha = database.readLine();
+        String head = "color,director_name,num_critic_for_reviews,duration,director_facebook_likes,actor_3_facebook_likes,actor_2_name,actor_1_facebook_likes,gross,genres,actor_1_name,movie_title,num_voted_users,cast_total_facebook_likes,actor_3_name,facenumber_in_poster,plot_keywords,movie_imdb_link,num_user_for_reviews,language,country,content_rating,budget,title_year,actor_2_facebook_likes,imdb_score,aspect_ratio,movie_facebook_likes";
+        ArrayList heads = new ArrayList(Arrays.asList(head.split("\\s*,\\s*")));
+        ArrayList palavras = new ArrayList(Arrays.asList(linha.split("\\s*;\\s*")));
+        for (int i = 0; i < palavras.size(); i++) {
+            System.out.println(heads.get(i)+": "+ palavras.get(i)+"\n");
+//            System.out.println("a");
+        }
     }
 
 }
