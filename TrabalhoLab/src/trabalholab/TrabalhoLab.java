@@ -29,11 +29,8 @@ public class TrabalhoLab {
         LerArquivo teste = new LerArquivo();
 //        System.out.println(teste.calcularHash("love"));
 //        System.out.println(teste.calcularHash("slaughter"));
-//        System.out.println(teste.acharPalavra("slaughter"));
-//        teste.criarBaseDados();
+        System.out.println(teste.acharPalavra("four word date crush"));
 //        teste.criarTabelaHash();
-        int a = Integer.parseInt(teste.acharPalavra("marriage proposal").get(0));
-        teste.recuperaFilme(a);
     }
 
 }
