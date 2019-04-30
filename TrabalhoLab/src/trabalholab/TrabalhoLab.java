@@ -32,7 +32,8 @@ public class TrabalhoLab {
 //        System.out.println(teste.acharPalavra("slaughter"));
 //        teste.criarBaseDados();
 //        teste.criarTabelaHash();
-        int a = Integer.parseInt(teste.acharPalavra("marriage proposal").get(0));
+        int a = Integer.parseInt(teste.acharPalavra("superhero").get(0));
+//        System.out.println(a);
         teste.recuperaFilme(a);
     }
 
